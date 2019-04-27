@@ -3,16 +3,16 @@
     Tuba Farm Equipment
  *    Variables and functions
  *    
- *    Author: 
- *    Date:   
+      Author: Jose Felix
+      Date:   4.26.19   
 
  *    Filename: tuba.js
  */
 
 /* global variables tracking status of each form section */
-var acresComplete = true;
-var cropsComplete = true;
-var monthsComplete = true;
+var acresComplete = false;
+var cropsComplete = false;
+var monthsComplete = false;
 var fuelComplete = true;
 
 /* global variables referencing sidebar h2 and p elements */
@@ -53,7 +53,26 @@ var fuelFieldset = document.getElementsByTagName("fieldset")[3];
 
 /* verify at least one crops checkbox is checked */
 function verifyCrops() {
-    testFormCompleteness();
+    try {
+        for (var i = 0; i < 7; i++) {
+            if (cropsFieldset.getElementsByTagName("input")[i].checked) {
+                // this issue with this variable was that it was not camel case.
+                cropsComplete = true;
+                messageElement.innerHTML = "";
+                testFormCompleteness();
+                i = 8;
+            }
+        }
+        if (i === 7) {
+            throw "Please select at least one crop.";
+        }
+    }
+    catch(message) {
+        cropsComplete = false;
+        messageHeadElement.innerHTML = "";
+        messageElement.innerHTML = message;
+    }
+
 }
 
 /* verify months text box entry is between 1 and 12 */
